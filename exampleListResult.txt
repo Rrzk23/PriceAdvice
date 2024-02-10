@@ -1,0 +1,195 @@
+Start
+{
+  prettyUrl: 'property-apartment-vic-docklands-142481272',
+  standard: false,
+  midtier: false,
+  lister: {
+    website: 'http://propertypoint.ljhooker.com.au/',
+    phoneNumber: '0422327686',
+    name: 'Mary Feng',
+    mainPhoto: {
+      server: 'https://i3.au.reastatic.net',
+      name: 'main photo',
+      uri: '/bbe0f333bcb5c8bc5c0c0735a9d59777dda102bbc0ff82e128b851d080f51a86/main.jpg'
+    },
+    id: '952079',
+    email: 'mary.feng@ljhooker.com.au'
+  },
+  featured: false,
+  signature: true,
+  constructionStatus: 'established',
+  channel: 'buy',
+  description: "Mary Feng and LJ Hooker Property Point presents 813/750 Bourke Street, Docklands. An exquisite two bedroom apartment that represents an exceptional investment opportunity in a captivating location. This stunning apartment is nestled in the vibrant Docklands precinct and showcases a modern urban kitchen, an expansive open plan living area, two bathrooms, and convenient one car accommodation. Adjacent to the renowned Etihad Stadium, this apartment provides exclusive access to the dynamic lifestyle and thriving atmosphere of the area. Don't miss this exceptional investment opportunity offering the potential for an extraordinary return.<br/><br/>- Accommodation includes two spacious bedrooms that exude space and elegance, featuring mirrored built-in robes that offer ample storage. The master suite boasts a stylish ensuite, enhancing the overall comfort and convenience.<br/>- Step into the fully equipped urban kitchen, boasting sleek and modern design. High-quality stainless steel appliances, such as an oven, cooktop, and dishwasher, elevate your cooking experience. The practical breakfast counter, spacious pantry, and ample overhead cupboards offer convenience and style, creating a culinary haven for all your needs.<br/>- The apartment embraces an open plan living and dining area, creating a seamless flow between spaces. This versatile layout provides flexibility for both relaxation and entertaining, allowing you to personalise the space according to your lifestyle.<br/>- Step out onto the adjoining balcony from the open plan living area and immerse yourself in the vibrant ambiance of the Docklands precinct. This outdoor oasis provides an ideal retreat to relax, unwind, and savor the refreshing breeze.<br/>- The apartment features a pristine central bathroom that includes laundry facilities, complete with a washer and dryer. Convenience and functionality are seamlessly integrated into this well-designed space. <br/>- Additional highlights include one car accommodation, split system air conditioning in both bedrooms to control the temperature, plush carpet, modern downlights and quality fixtures and fittings throughout that add a touch of luxury.<br/>- Currently leased until 2025 with market leader Quest Serviced Apartments, rental return of $2,743.49 per month. <br/><br/>This outstanding investment opportunity offers a contemporary and convenient lifestyle in the heart of Docklands. With stunning views of the renowned Etihad Stadium, the vibrant and energetic atmosphere will be enjoyed thoroughly. The bustling promenade of Docklands and the nearby Southbank showcase a wide selection of renowned restaurants and bars, creating a vibrant culinary scene. Excellent transport links, including trams and trains, provide easy access to Melbourne's best attractions. The apartment also offers secure intercom entry, 24-hour on-site management, and exclusive communal facilities including a gym and business center. Don't miss out on this remarkable investment opportunity that guarantees both comfort and a remarkable stay at Quest Docklands.<br/><br/>Note. All stated dimensions are approximate only. Particulars given are for general information only and do not constitute any representation on the part of the vendor or agent.",
+  advertising: {
+    region: 'melbourne_city___greater_region',
+    priceRange: '500k_600k'
+  },
+  showAgencyLogo: true,
+  title: 'Prime Investment Opportunity at Quest Docklands',
+  isLinkedExternalChildListing: false,
+  listers: [
+    {
+      website: 'http://propertypoint.ljhooker.com.au/',
+      phoneNumber: '0422327686',
+      powerProfile: false,
+      jobTitle: 'Licensed Estate Agent',
+      name: 'Mary Feng',
+      mainPhoto: [Object],
+      id: '952079',
+      email: 'mary.feng@ljhooker.com.au'
+    }
+  ],
+  features: { general: { bedrooms: 2, bathrooms: 2, parkingSpaces: 1 } },
+  price: { display: 'Contact Agent' },
+  propertyType: 'apartment',
+  isExternalChildListing: false,
+  productDepth: 'signature',
+  calculator: {
+    brandingColors: { text: '#000000', primary: '#ffffff' },
+    subtitle: 'Calculate repayments for this property',
+    title: 'Mortgage Calculator'
+  },
+  images: [
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/af94fc88414f9bdb62bb5f7aa48f47f9f7a64748b275fe5bb8a9b81d29cfdd00/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/5cd4de619c432b9c6d7ac035eff5bac5d3fc646c4b19101ce7b8e984fead3cdc/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/b46fb60db858e1f0b13094894bd3b6b1249981cf60e78c4fa4f0df69aa094bff/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/ab6ad6ad326b1bc371d9c53f0d22c2dff37c5df9a18393e85ea0b4f86fa3d41e/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/1e20a7c1b89787aaff574bae2f32632eccc20e4247d51ec1a85ae6542a775321/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/c8ace8f74007e6c5c34e85c93e73de9e267ced2ccd7b6034f0d6ff0f88992693/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/1875000caa75f4f4171ca85a972367f1fd545d1799a475e1d0b7efcc42aa849d/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/cbbddd34d0d977ee177a12127e8f0620c379235f47fc0201072d074d67a53df7/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/41502936d5957509dad36a687298c20a20ab6f9648ee54dc98beb6bfd5b1e608/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/7b3fbe9ee34511c38141612f3d7c8a949d31151d0b9ee6be8b11780535a86ba3/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/10c68839ad37fbea9efb82d7cc767977244bae250499728ba4b306b66d274bef/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/708cc09f367fffaa4f0ee336eef0a92c825db43273460278846d7ffc575e781c/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/95e138cdd82c9d27d195da7e26b4cb755e3919325ca0b4290242caabec48fbc3/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/053b135683c5e972f4a2f2a2958b0db9390b82d5a86dc763bcaddb4badbe681d/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/45be2b32515177c986f249fdd376c8afa7bec23867989823d2b3e6822a71c99f/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'floorplan',
+      resize: true,
+      uri: '/45927b5f86d118e12abc37bb5d354393c801f6f02c2878a19c6b689760e61636/image.jpg'
+    }
+  ],
+  address: {
+    streetAddress: '813/750 Bourke Street',
+    locality: 'Docklands',
+    postcode: '3008',
+    suburb: 'Docklands',
+    postCode: '3008',
+    location: { latitude: -37.81846611, longitude: 144.94760957 },
+    subdivisionCode: 'Vic',
+    state: 'Vic',
+    showAddress: true
+  },
+  classicProject: false,
+  agency: {
+    website: 'http://propertypoint.ljhooker.com.au/',
+    address: {
+      streetAddress: 'GROUP OFFICE: 211-212/4 Main Street',
+      postcode: '3030',
+      suburb: 'Point Cook',
+      state: 'VIC'
+    },
+    phoneNumber: '03 9975 7080',
+    brandingColors: { text: '#ffffff', primary: '#000000' },
+    name: 'LJ Hooker Property Point',
+    logo: { images: [Array], links: [Object] },
+    agencyId: 'OYGHHQ',
+    email: 'pointcook@ljhooker.com.au'
+  },
+  isSoldChannel: false,
+  isBuyChannel: true,
+  signatureProject: false,
+  agencyListingId: 'R2-3708805',
+  propertyFeatures: [
+    {
+      features: [Array],
+      section: 'outdoor',
+      label: 'Outdoor Features'
+    },
+    { features: [Array], section: 'indoor', label: 'Indoor Features' }
+  ],
+  listingId: '142481272',
+  isInternalChildListing: false,
+  mainImage: {
+    server: 'https://i3.au.reastatic.net',
+    name: 'main photo',
+    uri: '/de06a31b53a84971326aa09d4159eabb945e80b596b0c8412928f0e8dfcc6338/image.jpg'
+  },
+  statementOfInformation: {
+    href: 'https://i3.au.reastatic.net/original/72cce8d6408531f021806afb2a25079b07b07c3e76b494553a23b8ef8970a994/statement.pdf',
+    title: 'Statement of Information',
+    statementSummary: ''
+  },
+  modifiedDate: { value: '' },
+  inspectionsAndAuctions: [],
+  generalFeatures: {
+    bedrooms: { label: 'Bedrooms: 2', type: 'bedrooms', value: 2 },
+    bathrooms: { label: 'Bathrooms: 2', type: 'bathrooms', value: 2 },
+    parkingSpaces: { label: 'Parking Spaces: 1', type: 'parkingSpaces', value: 1 }
+  },
+  isRentChannel: false
+}
+end

@@ -1,0 +1,6 @@
+09/02/2024:
+Developed the server.js which can use the API at rapidAPI that can query
+the request for certain variable and return the JSON respone from the API.
+
+Next step should try to work on process the price of each houses as 
+currently the price display property is very vary.

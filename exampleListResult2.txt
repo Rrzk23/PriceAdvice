@@ -1,0 +1,167 @@
+Start
+{
+  prettyUrl: 'property-apartment-vic-west+melbourne-143201288',
+  standard: false,
+  midtier: false,
+  lister: {
+    phoneNumber: '0410070347',
+    name: 'Chris Michael',
+    mainPhoto: {
+      server: 'https://i3.au.reastatic.net',
+      name: 'main photo',
+      uri: '/0cbbce8bc3e95792300fa1a4f1dd87480d31fcece97ac6c720982219d2a9d56a/main.jpg'
+    },
+    id: '3317792',
+    email: 'chris.michael@raywhite.com'
+  },
+  featured: false,
+  signature: true,
+  constructionStatus: 'established',
+  channel: 'buy',
+  description: 'Perfectly positioned on the top floor of the popular Park West Apartment complex, featuring a front corner aspect this two bedroom apartment also has the advantage of a secure car parking space on title. A fantastic city fringe position just an easy stroll to the Flagstaff Gardens, QV Market, cafes, Haileybury College, transport options to the CBD, schools and universities.<br/><br/>Ideal for the owner occupier wanting to move in now or the investor seeking a property in this popular high demand location. The accommodation includes open plan living - meals, split system heating & cooling and sliding door to a generous balcony. The well appointed kitchen area includes gas cooking, rangehood, dishwasher and ample bench - cupboard space. Both bedrooms have mirrored built in robes, large windows and serviced by the central bathroom with laundry facilities including a trough. Additional features include secure intercom entry, lift access and a car parking space.<br/><br/>',
+  showAgencyLogo: true,
+  title: 'Captivating Views to the North - East',
+  isLinkedExternalChildListing: false,
+  listers: [
+    {
+      phoneNumber: '0410070347',
+      powerProfile: false,
+      jobTitle: 'Sales',
+      name: 'Chris Michael',
+      mainPhoto: [Object],
+      id: '3317792',
+      email: 'chris.michael@raywhite.com'
+    },
+    {
+      phoneNumber: '0407063132',
+      powerProfile: false,
+      jobTitle: 'Sales',
+      name: 'Luigi Turco',
+      mainPhoto: [Object],
+      id: '3317796',
+      email: 'luigi.turco@raywhite.com'
+    }
+  ],
+  features: { general: { bedrooms: 2, bathrooms: 1, parkingSpaces: 1 } },
+  price: { display: '$460,000 - $500,000' },
+  propertyType: 'apartment',
+  isExternalChildListing: false,
+  productDepth: 'signature',
+  calculator: {
+    brandingColors: { text: '#000000', primary: '#ffffff' },
+    subtitle: 'Calculate repayments for this property',
+    title: 'Mortgage Calculator'
+  },
+  images: [
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/c1f4a3120c6d4b987fee063d34e29739c16b7e99a462db215a6e4383e547cfd7/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/6b23439ba76f41bc88d227d12cb167094482524f93e0f787dac0917b5b517655/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/dc2b24f29851277ef381c0ce4c3a2bc011d22548ebba7e98b3b18252dcc39966/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/56c58f1ea41cf329f14ad9534758e5ee8389a0d3290903d71cb3d4fcccd9d3b5/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/eb295ea763ce1b09d5855a20317968477a97e2320e107441a95a68550f3a8193/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/8bf473bd375710fe9cc00e2e4a8f96afc98f11c9c72b4dded4374eb022d1a49d/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/5996a8862671bebdc51c26889ede4bf73f13827c249165e51e6c3e03146f5f3a/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/6e623f7ecfad69b2fa22e5ab28c696c0a4eeb654b921ffc5fd333d37100df83e/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'photo',
+      uri: '/9d941845b9a2aff32f867ab342f101fa070badc811857e7095f2fc8a3eb1d8ae/image.jpg'
+    },
+    {
+      server: 'https://i3.au.reastatic.net',
+      name: 'floorplan',
+      resize: true,
+      uri: '/d378058fa97d9bd097af2122ee9f2c6553e89cf638d416082e4f663c40a89c9d/image.jpg'
+    }
+  ],
+  address: {
+    streetAddress: '807/33-41 Batman Street',
+    locality: 'West Melbourne',
+    postcode: '3003',
+    suburb: 'West Melbourne',
+    postCode: '3003',
+    location: { latitude: -37.81087337, longitude: 144.95182091 },
+    subdivisionCode: 'Vic',
+    state: 'Vic',
+    showAddress: true
+  },
+  classicProject: false,
+  agency: {
+    address: {
+      streetAddress: '2/405 High Street',
+      postcode: '3070',
+      suburb: 'Northcote',
+      state: 'VIC'
+    },
+    phoneNumber: '(03) 9478 8833',
+    brandingColors: { text: '#000000', primary: '#ffe617' },
+    name: 'Ray White - Northcote',
+    logo: { images: [Array], links: [Object] },
+    agencyId: 'KBDZFD',
+    email: 'northcote.vic@raywhite.com'
+  },
+  isSoldChannel: false,
+  isBuyChannel: true,
+  signatureProject: false,
+  agencyListingId: 'L24021271',
+  propertyFeatures: [
+    {
+      features: [Array],
+      section: 'outdoor',
+      label: 'Outdoor Features'
+    },
+    { features: [Array], section: 'indoor', label: 'Indoor Features' }
+  ],
+  listingId: '143201288',
+  isInternalChildListing: false,
+  mainImage: {
+    server: 'https://i3.au.reastatic.net',
+    name: 'main photo',
+    uri: '/2b96277c5d928e191359588d2bd75518c7736ccd55892de4998be40a37ad5b43/image.jpg'
+  },
+  statementOfInformation: {
+    href: 'https://i3.au.reastatic.net/original/8f48e859dac74e867c1d773b9d260ea8fe8f367a8987013fbf33062fcb0f33bf/statement.pdf',
+    title: 'Statement of Information',
+    statementSummary: ''
+  },
+  modifiedDate: { value: '' },
+  inspectionsAndAuctions: [],
+  generalFeatures: {
+    bedrooms: { label: 'Bedrooms: 2', type: 'bedrooms', value: 2 },
+    bathrooms: { label: 'Bathrooms: 1', type: 'bathrooms', value: 1 },
+    parkingSpaces: { label: 'Parking Spaces: 1', type: 'parkingSpaces', value: 1 }
+  },
+  isRentChannel: false
+}
+end

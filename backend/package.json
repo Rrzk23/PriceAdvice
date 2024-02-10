@@ -1,0 +1,29 @@
+{
+  "name": "priceadvice",
+  "version": "1.0.0",
+  "description": "Web App use to give advice for real estate pricing",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Rrzk23/PriceAdvices.git"
+  },
+  "author": "Wilson Zhu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rrzk23/PriceAdvices/issues"
+  },
+  "homepage": "https://github.com/Rrzk23/PriceAdvices#readme",
+  "dependencies": {
+    "-": "^0.0.1",
+    "axios": "^1.6.7",
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "g": "^2.0.1",
+    "nodemon": "^3.0.3"
+  }
+}
