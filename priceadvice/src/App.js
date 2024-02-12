@@ -1,23 +1,16 @@
-import logo from './logo.svg';
+
+import React, { useEffect } from 'react';
 import './App.css';
+import { loadGoogleMapsApi } from './function/map'; // Adjust the path if necessary
 
 function App() {
+  useEffect(() => {
+    loadGoogleMapsApi(); // This will load the map when the component mounts
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div id="map"></div> {/* Ensure this id matches the one used in map.js */}
     </div>
   );
 }

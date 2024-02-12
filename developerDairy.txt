@@ -4,3 +4,15 @@ the request for certain variable and return the JSON respone from the API.
 
 Next step should try to work on process the price of each houses as 
 currently the price display property is very vary.
+
+10/02/2024:
+
+Finished the priceProcessing function that can figure out is a house 
+item in auction, not listing price, range average price, fixed price and
+save them in other to return.
+
+Next goal should be using autocomplete api to get suggestion and get more information.
+
+12/02/2024:
+
+fix the autocomplete api thing and add the google map api for the front-end and finish the data-layer for NSW.

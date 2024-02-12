@@ -5,6 +5,7 @@ const app = express();
 const axios = require('axios');
 const RapidAPIKey = process.env.RAPIDAPI_KEY;
 const PORT = process.env.PORT || 5000;
+const priceProcess = require('./src/priceProcessing');
 
 app.get('/hi', (req, res) => {
     const name = req.query.name;
@@ -14,16 +15,43 @@ app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
 });
 
+// channel REQUIRED One of the following : buy|rent|sold
+//searchLocation REQUIRED The value of text field returned in …/auto-complete endpoint
+// searchLocationSubtext The value of subtext field returned in …/auto-complete endpoint
+// type REQUIRED The value of region field returned in …/auto-complete endpoint
+// sort One of the following relevance|new-asc|new-desc|price-asc|price-desc
 
+// propertyTypes Ignore or one of the following : townhouse|unit apartment|retire|acreage|land|unitblock|house|villa|rural. Separated by comma for multiple options. Ex : townhouse,house,villa
 app.get('/list', async (req, res) => {
-    const { channel, searchLocation, searchLocationSubtext, type, sort } = req.query;
+    const query = req.query;
+    const suggesstions = {
+        method: 'GET',
+        url: 'https://realty-in-au.p.rapidapi.com/auto-complete',
+        params: {query: query},
+        headers: {
+          'X-RapidAPI-Key': RapidAPIKey,
+          'X-RapidAPI-Host': 'realty-in-au.p.rapidapi.com'
+        }
+      };
+    const {searchLocation, searchLocationSubtext, type} = null;
+      try {
+          const response = await axios.request(suggesstions);
+          const suggesstion = response.suggesstions[0];
+          searchLocation = suggesstion.display.text;
+          searchLocationSubtext = suggesstion.display.subtext;
+          type = suggesstion.type;
+          console.log(response.data);
+      } catch (error) {
+          console.error(error);
+      }
+    const { channel, sort } = req.query;
     const options = {
         method: 'GET',
         url: 'https://realty-in-au.p.rapidapi.com/properties/list',
         params: {
-            channel: channel,
-            searchLocation: 'Melbourne City - Greater Region, VIC',
-            searchLocationSubtext: 'Region',
+            channel: buy,
+            searchLocation: searchLocation,
+            searchLocationSubtext: searchLocationSubtext,
             type: type,
             page: '1',
             pageSize: '50',
@@ -49,9 +77,9 @@ app.get('/list', async (req, res) => {
             + result.address.suburb + ' ' + result.address.postcode;
             let price = {};
             price['address'] = address;
-            price['price'] = result.price;
+            price['price'] = priceProcess(result.price.display);
             prices.push(price);
-            console.log(i++);
+            //console.log(i++);
         }
         console.log(prices);
         console.log('end');
