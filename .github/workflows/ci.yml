@@ -26,7 +26,9 @@ jobs:
         run: npm install
 
       - name: Run ESLint
-        run: npx eslint .
+        run:  |
+          cd backend
+          npx eslint .
 
   test:
     name: Run Tests
@@ -46,4 +48,6 @@ jobs:
         run: npm install
 
       - name: Run Jest tests
-        run: npm test
+        run: |
+          cd backend
+          npm test
