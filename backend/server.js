@@ -1,3 +1,7 @@
+
+import priceRoutes from './routes/priceRoutes';
+import authRoutes from './routes/authRoutes';
+import userRoutes from './routes/userRoutes';
 const rateLimit = require("express-rate-limit");
 require('dotenv').config();
 const express = require('express');
@@ -6,10 +10,22 @@ const axios = require('axios');
 const RapidAPIKey = process.env.RAPIDAPI_KEY;
 const PORT = process.env.PORT || 5000;
 const priceProcess = require('./src/priceProcessing');
+const cors = require('cors');
 
-app.get('/hi', (req, res) => {
-    const name = req.query.name;
-    res.send('Hello world, ' + name);
+
+
+const corsOptions = {
+    origin: 'http://localhost:3000',  // 只允许这个来源的请求
+    optionsSuccessStatus: 200
+  };
+  
+  app.use(cors(corsOptions));
+  app.use(express.json());
+
+app.post('/hi', (req, res) => {
+    const {state, suburb, zip, bedrooms, bathrooms, garage, priceMin, priceMax, areaMin, areaMax} = req.body;
+    console.log("Hello, we get " + state);
+    res.send(JSON.stringify(req.body));
 })
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
@@ -23,6 +39,9 @@ app.listen(PORT, () => {
 
 // propertyTypes Ignore or one of the following : townhouse|unit apartment|retire|acreage|land|unitblock|house|villa|rural. Separated by comma for multiple options. Ex : townhouse,house,villa
 app.get('/list', async (req, res) => {
+    console.log(req)
+    res.send('Hello there, ' + req);
+    
     const query = req.query;
     const suggesstions = {
         method: 'GET',
@@ -88,3 +107,6 @@ app.get('/list', async (req, res) => {
     }
     }
 )
+app.use('/api/prices', priceRoutes);
+app.use('/api/login', authRoutes);
+app.use('/api/', userRoutes);

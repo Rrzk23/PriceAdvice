@@ -16,3 +16,25 @@ Next goal should be using autocomplete api to get suggestion and get more inform
 12/02/2024:
 
 fix the autocomplete api thing and add the google map api for the front-end and finish the data-layer for NSW.
+
+type tag and tab h1 tag is really import for SEO google and really search on that just make 1.
+
+quick way to do the ol li thing
+
+ol>li*5 then tab 
+
+Mdn can use to know some html tag etc.... 
+
+using * lack of performance use body is better.
+
+css highlight selector can see the weight {x,y,z}
+
+web.dev
+
+yong rem
+
+*{
+    box-sizing: border-box;
+}
+
+make the content border as a box very important
