@@ -1,5 +1,5 @@
-
-import { Price, FilterSetting } from '../../shared/types';
+import { Request, Response, NextFunction } from 'express';
+import { Price, FilterSetting } from '../../../shared/types';
 import axios from 'axios';
 import { z } from 'zod';
 
@@ -22,7 +22,7 @@ const PriceSchema = z.object({
 const PricesArraySchema = z.array(PriceSchema);
 
 // Controller function to get filtered prices
-export const getFilteredPrices = async (req, res): Promise<void> => {
+export const getFilteredPrices = async (req: Request, res: Response): Promise<void> => {
   try {
     const filters: FilterSetting = req.body;
     FilterSettingSchema.parse(filters); // Validate filter settings
@@ -40,5 +40,5 @@ export const getFilteredPrices = async (req, res): Promise<void> => {
     res.status(500).json({ message: 'Error fetching filtered prices', error });
   }
 };
-export const getRealTimePrices = async (req, res): Promise<void> => {
-}
+export const getRealTimePrices = async (req: Request, res: Response): Promise<void> => {
+};

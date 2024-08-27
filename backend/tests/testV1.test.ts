@@ -1,5 +1,5 @@
-const priceProcess = require('../src/priceProcessing'); // Adjust the path as necessary
-
+import priceProcess from '../src/priceProcessing'; // Adjust the path as necessary
+import { describe, expect, test } from '@jest/globals';
 describe('normalizePrice', () => {
   test('handles single prices with dollar sign', () => {
     expect(priceProcess('$500,000')).toBe(500000);
@@ -17,7 +17,7 @@ describe('normalizePrice', () => {
     expect(priceProcess('$400,000 - $450,000')).toBe(425000);
   });
 
-  test('handles price ranges with "-"', () => {
+  test('handles price ranges with "-" (no spaces)', () => {
     expect(priceProcess('$400,000-$450,000')).toBe(425000);
   });
 
@@ -26,7 +26,7 @@ describe('normalizePrice', () => {
   });
 
   test('returns "N/A" for undefined prices', () => {
-    expect(priceProcess(undefined)).toBe('Not Price or Auction avaliable.');
+    expect(priceProcess('')).toBe('Not Price or Auction available.');
   });
 
   // Add more test cases as needed

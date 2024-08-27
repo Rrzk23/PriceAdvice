@@ -1,8 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const priceProcess = (price) => {
-    if(!price){
+    if (!price) {
         return 'Not Price or Auction avaliable.';
     }
-    if (price.toLowerCase().includes("auction")) { 
+    if (price.toLowerCase().includes("auction")) {
         return "Auction";
     }
     // optional to have dolloar sign, have zero or more space between the connecting words
@@ -11,14 +13,12 @@ const priceProcess = (price) => {
     if (rangeMatch) {
         const minPrice = parseInt(rangeMatch[1].replace(/[\$,]/g, ''), 10);
         const maxPrice = parseInt(rangeMatch[2].replace(/[\$,]/g, ''), 10);
-        return (minPrice + maxPrice) / 2; 
+        return (minPrice + maxPrice) / 2;
     }
     const singlePriceMatch = price.match(/\$?([0-9,]+)/);
     if (singlePriceMatch) {
-        return parseInt(singlePriceMatch[1].replace(/[\$,]/g, ''), 10); 
+        return parseInt(singlePriceMatch[1].replace(/[\$,]/g, ''), 10);
     }
     return price;
-}
-
-
-module.exports = priceProcess;
+};
+exports.default = priceProcess;
