@@ -12,22 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.startServer = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-const app_1 = __importDefault(require("./app"));
-// Load environment variables
-const PORT = parseInt(process.env.PORT || '5000', 10);
-// Function to start the server
-const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
-    mongoose_1.default.connect(process.env.DB_URL).then(() => {
-        console.log('Connected to database');
-        app_1.default.listen(PORT, () => {
-            console.log(`Server started on port ${PORT}`);
+const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield mongoose_1.default.connect(process.env.MONGO_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
         });
-    }).catch(console.error);
+        console.log('Database is connected');
+    }
+    catch (err) {
+        console.log(err);
+    }
 });
-exports.startServer = startServer;
-// Start the server in production environment
-if (process.env.NODE_ENV !== 'test') {
-    (0, exports.startServer)().catch(console.error);
-}
+exports.default = connectDB;

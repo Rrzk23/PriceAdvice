@@ -1,6 +1,6 @@
 const priceProcess = (price: string) => {
   if (!price) {
-    return 'Not Price or Auction avaliable.';
+    return 'Not Price or Auction available.';
   }
   if (price.toLowerCase().includes('auction')) { 
     return 'Auction';
