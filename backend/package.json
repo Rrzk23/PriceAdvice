@@ -32,6 +32,7 @@
     "g": "^2.0.1",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
+    "lrucache": "^1.0.3",
     "mongodb": "^6.8.0",
     "mongodb-memory-server": "^10.0.0",
     "mongoose": "^8.5.4",
