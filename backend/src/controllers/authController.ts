@@ -1,32 +1,55 @@
-import { Request, Response } from 'express';
-import { User } from '../../../shared/types';
-import { searchUserbyEmail, updateUser} from '../utils/user';
-import { generateToken } from '../utils/genToken';
-import fs from 'fs'
-export const registerUser = async (req : Request, res: Response): Promise<void> => {
-    //let id : string = generateUserId();
-    const user: User = {
-        id: 1,
-        name:"abc",
-        email: req.body.email,
-        password: req.body.password,
-        token: 'abc123',
-    };
-    res.json(user);
-    res.send();
-};
-export const loginUser = async (req: Request, res: Response): Promise<void> => {
-    const user: User = await searchUserbyEmail(req.body.email);
-    if (!user || user.password!== req.body.password) {
-        throw res.status(401).json({ message: 'Incorrect email or password' });
+import { RequestHandler } from 'express';
+import createHttpError from 'http-errors';
+import { User } from '../models/userModel';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import bcrypt from 'bcrypt';
+
+interface SignUpUserBody extends RequestHandler {
+  username: string;
+  email: string;
+  password: string;
+}
+interface LoginUserBody extends RequestHandler {
+  userNameOrEmail: string;
+  password: string;
+}
+
+
+export const signUpUser: RequestHandler<unknown, unknown, SignUpUserBody, unknown> = async (req, res, next) =>{
+  const userName = req.body.username;
+  const userEmail = req.body.email;
+  const passwordRaw = req.body.password;
+  try {
+    if (!userName || !userEmail || !passwordRaw) {
+      throw createHttpError(400, 'User name, email or password missing');
     }
-    const token = generateToken(user);
-    user.token = token;
+    // Validate email format
+    const existingUserName = await User.findOne({ userName: userName }).exec();
+    if (existingUserName) {
+      throw createHttpError(409, 'User name already taken');
+    }
+    const existingUserEmail = await User.findOne({ userEmail: userEmail }).exec();
+    if (existingUserEmail) {
+      throw createHttpError(409, 'Email already in use');
+    }
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(passwordRaw, 10);
+    // Create new user
+    const newUser = new User({
+      userName: userName,
+      userEmail: userEmail,
+      password: hashedPassword,
+    });
+    //await newUser.save();
+    res.status(201).json(newUser);
 
-    // Save the user back to the database, if necessary
-    await updateUser(user);
-
-    
-    res.json({...user, token: 'abc123' });
-    res.send();
+  } catch (error) {
+    next(error);
+  }
+};
+export const loginUser : RequestHandler<unknown, unknown, LoginUserBody, unknown> = async (req, res, next) => {
+  const userNameOrEmail = req.body.userNameOrEmail;
+  const passwordRaw = req.body.password;
+  
+  
 };
