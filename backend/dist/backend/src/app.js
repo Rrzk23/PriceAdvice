@@ -55,8 +55,8 @@ app.use((0, morgan_1.default)('dev'));
 // Load environment variables
 const RapidAPIKey = process.env.RAPIDAPI_KEY;
 app.use('/api/prices', priceRoutes_1.default);
-app.use('/api/login', authRoutes_1.default);
-app.use('/api/', userRoutes_1.default);
+app.use('/api/auth', authRoutes_1.default);
+app.use('/api/users', userRoutes_1.default);
 // For unidentified endpoints
 app.use((req, res, next) => {
     next((0, http_errors_1.default)(404, 'Endpoint not found'));

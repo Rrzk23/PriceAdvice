@@ -26,6 +26,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const authController = __importStar(require("../controllers/authController"));
 const router = (0, express_1.Router)();
-router.get('/register', authController.registerUser);
+router.get('/signup', authController.signUpUser);
 router.post('/login', authController.loginUser); // Add POST route for filter
 exports.default = router;

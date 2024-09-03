@@ -4,7 +4,7 @@ import * as priceController from '../controllers/priceController';
 const router = Router();
 
 
-router.post('/filter', priceController.getFilteredPrices); // Add POST route for filter
+// Add POST route for filter
 router.get('/getprices', priceController.getPrices);
 router.post('/post', priceController.postPrice);
 //get price by parapriceId
