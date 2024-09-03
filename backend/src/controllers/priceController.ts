@@ -1,18 +1,17 @@
-import { Request, Response, NextFunction, RequestHandler } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 import { FilterSetting } from '../../../shared/types';
 import Price from '../../models/priceModel';
 import axios from 'axios';
-import { z } from 'zod';
+
 import createHttpError from 'http-errors';
 import mongoose from 'mongoose';
 
-// Define a Zod schema for FilterSetting
-const FilterSettingSchema = z.object({
-  location: z.string(),
-  minPrice: z.number(),
-  maxPrice: z.number(),
-  propertyType: z.string(),
-});
+interface CreatePriceBody {
+  location?: string;
+  price?: string;
+  title?: string;
+}
+
 
 
 export const getFilteredPrices = async (req: Request, res: Response): Promise<void> => {
@@ -61,11 +60,7 @@ export const getPrice : RequestHandler = async (req, res, next) => {
   }
   
 };
-interface CreatePriceBody {
-  location?: string;
-  price?: string;
-  title?: string;
-}
+
 export const postPrice : RequestHandler<unknown, unknown, CreatePriceBody, unknown> = async (req, res, next) => {
   const location = req.body.location;
   const price = req.body.price;
