@@ -27,8 +27,37 @@ afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default.disconnect();
     yield mongoServer.stop();
 }));
+describe('Unit Tests for GET /prices,', () => {
+    let priceId1;
+    let priceId2;
+    beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
+        let response = yield (0, supertest_1.default)(app_1.default)
+            .post('/api/prices/post')
+            .send({
+            location: 'Eastwood',
+            price: '100',
+            title: 'Title',
+        });
+        priceId1 = response.body._id;
+        response = yield (0, supertest_1.default)(app_1.default).post('/api/prices/post').send({
+            location: 'Westwood',
+            price: '200',
+            title: 'Title',
+        });
+        priceId2 = response.body._id;
+    }));
+    afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
+        yield (0, supertest_1.default)(app_1.default).delete('/api/prices/deleteprice/' + priceId1);
+        yield (0, supertest_1.default)(app_1.default).delete('/api/prices/deleteprice/' + priceId2);
+    }));
+    it('should return an array of prices', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app_1.default).get('/api/prices/getprices');
+        expect(response.status).toBe(200);
+        expect(response.body).toHaveLength(2);
+    }));
+});
 describe('Unit Tests for POST /prices/post and DELETE /prices/deleteprice/priceId', () => {
-    it('should throw error of Posting price requires a location, price and date', () => __awaiter(void 0, void 0, void 0, function* () {
+    it('should throw error of Posting price requires a location, price and title', () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app_1.default)
             .post('/api/prices/post')
             .send({
@@ -37,7 +66,7 @@ describe('Unit Tests for POST /prices/post and DELETE /prices/deleteprice/priceI
             date: '',
         });
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe('Posting price requires a location, price and date');
+        expect(response.body.error).toBe('Posting price requires a location, price and title');
     }));
     it('should post a valid price and able to delete it, if the id is wrong it should return 400 or 404', () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app_1.default)
@@ -45,7 +74,7 @@ describe('Unit Tests for POST /prices/post and DELETE /prices/deleteprice/priceI
             .send({
             location: 'Eastwood',
             price: '100',
-            date: new Date(),
+            title: 'title',
         });
         expect(response.status).toBe(201);
         expect(response.body.location).toBe('Eastwood');
@@ -68,7 +97,7 @@ describe('Unit Tests for GET /prices/getprice/:priceId', () => {
         // Seed the database with a test document
         const response = yield (0, supertest_1.default)(app_1.default)
             .post('/api/prices/post')
-            .send({ location: 'Eastwood', price: '100', date: new Date() });
+            .send({ location: 'Eastwood', price: '100', title: 'Title' });
         testPriceId = response.body._id;
     }));
     afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -95,6 +124,82 @@ describe('Unit Tests for GET /prices/getprice/:priceId', () => {
         expect(response.status).toBe(200);
         expect(response.body.location).toBe('Eastwood');
         expect(response.body.price).toBe('100');
+        //expect(Date.parse(response.body.date)).toBeInstanceOf(Date);
+    }));
+});
+describe('Unit Tests for Patch /updateprice/:priceId', () => {
+    let testPriceId;
+    beforeEach(() => __awaiter(void 0, void 0, void 0, function* () {
+        // Seed the database with a test document
+        const response = yield (0, supertest_1.default)(app_1.default)
+            .post('/api/prices/post')
+            .send({ location: 'Eastwood', price: '100', title: 'Title', });
+        testPriceId = response.body._id;
+    }));
+    afterEach(() => __awaiter(void 0, void 0, void 0, function* () {
+        // Delete the test document after tests
+        yield (0, supertest_1.default)(app_1.default).delete('/api/prices/deleteprice' + testPriceId);
+    }));
+    it('shoult throws error 400 of invalid id for updating price with wrong id', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app_1.default)
+            .patch('/api/prices/updateprice/abc');
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe('Invalid price id');
+    }));
+    it('shoult throws error 400 for updating price with missing location filed', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app_1.default)
+            .patch('/api/prices/updateprice/' + testPriceId)
+            .send({
+            price: '120',
+        });
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe('Updating price missing a location');
+    }));
+    it('shoult throws error 400 for updating price with missing title filed', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app_1.default)
+            .patch('/api/prices/updateprice/' + testPriceId)
+            .send({
+            location: 'Burwood',
+            price: '120',
+        });
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe('Updating price missing a title');
+    }));
+    it('shoult throws error 400 for updating price with missing price filed', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app_1.default)
+            .patch('/api/prices/updateprice/' + testPriceId)
+            .send({
+            location: 'Burwood',
+            price: '',
+            title: 'Title',
+        });
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe('Updating price missing a price');
+    }));
+    it('should return 404 for a non-existent price ID', () => __awaiter(void 0, void 0, void 0, function* () {
+        // Using a random or invalid ObjectId
+        const invalidId = new mongoose_1.default.Types.ObjectId().toString();
+        const response = yield (0, supertest_1.default)(app_1.default)
+            .patch('/api/prices/updateprice/' + invalidId)
+            .send({
+            location: 'Chatswood',
+            price: '150',
+            title: 'Title',
+        });
+        expect(response.status).toBe(404);
+        expect(response.body.error).toBe('Price not found');
+    }));
+    it('should return 200 and get the correct price with the id', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app_1.default)
+            .patch('/api/prices/updateprice/' + testPriceId)
+            .send({
+            location: 'Chatswood',
+            price: '150',
+            title: 'Title',
+        });
+        expect(response.status).toBe(200);
+        expect(response.body.location).toBe('Chatswood');
+        expect(response.body.price).toBe('150');
         //expect(Date.parse(response.body.date)).toBeInstanceOf(Date);
     }));
 });

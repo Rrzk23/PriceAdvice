@@ -26,12 +26,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const priceController = __importStar(require("../controllers/priceController"));
 const router = (0, express_1.Router)();
-router.get('/realtime', priceController.getRealTimePrices);
 router.post('/filter', priceController.getFilteredPrices); // Add POST route for filter
-router.get('/getPrices', priceController.getPrices);
+router.get('/getprices', priceController.getPrices);
 router.post('/post', priceController.postPrice);
 //get price by parapriceId
 router.get('/getprice/:priceId', priceController.getPrice);
-router.patch('/priceupdate/:priceId', priceController.updatePrice);
+router.patch('/updateprice/:priceId', priceController.updatePrice);
 router.delete('/deleteprice/:priceId', priceController.deletePrice);
 exports.default = router;

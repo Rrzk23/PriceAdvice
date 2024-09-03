@@ -1,0 +1,32 @@
+.blockCenter{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.flexCenter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+.titleContainer{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+}
+.firstTitle{
+    flex-grow: 1;
+}
+@media (max-width: 600px) {
+    .titleContainer {
+        gap: 5px; 
+    }
+}
+
+/* 当屏幕宽度大于1200px时 */
+@media (min-width: 1200px) {
+    .titleContainer {
+        gap: 20px;
+    }
+}

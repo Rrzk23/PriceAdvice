@@ -14,21 +14,11 @@ const FilterSettingSchema = z.object({
   propertyType: z.string(),
 });
 
-// Define a Zod schema for Price
-const PriceSchema = z.object({
-  id: z.string(),
-  location: z.string(),
-  price: z.number(),
-  date: z.string(),
-});
 
-const PricesArraySchema = z.array(PriceSchema);
-
-// Controller function to get filtered prices
 export const getFilteredPrices = async (req: Request, res: Response): Promise<void> => {
   try {
     const filters: FilterSetting = req.body;
-    FilterSettingSchema.parse(filters); // Validate filter settings
+    FilterSettingSchema.parse(filters); // Valititle filter settings
 
     // Replace with the actual API call and logic to use the filters
     const response = await axios.get('https://example.com/api/prices', {
@@ -36,15 +26,14 @@ export const getFilteredPrices = async (req: Request, res: Response): Promise<vo
     });
 
     //const prices: Price[] = response.data;
-    //PricesArraySchema.parse(prices); // Validate the response data
+    //PricesArraySchema.parse(prices); // Valititle the response data
 
     //res.json(prices);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching filtered prices', error });
   }
 };
-export const getRealTimePrices = async (req: Request, res: Response): Promise<void> => {
-};
+
 export const getPrices : RequestHandler = async (req, res, next) => {
   try {
     //throw Error('Server error');
@@ -75,20 +64,20 @@ export const getPrice : RequestHandler = async (req, res, next) => {
 interface CreatePriceBody {
   location?: string;
   price?: string;
-  date?: string;
+  title?: string;
 }
 export const postPrice : RequestHandler<unknown, unknown, CreatePriceBody, unknown> = async (req, res, next) => {
   const location = req.body.location;
   const price = req.body.price;
-  const date = req.body.date;
+  const title = req.body.title;
   try {
-    if (!location || !price || !date) {
-      throw createHttpError(400, 'Posting price requires a location, price and date');
+    if (!location || !price || !title) {
+      throw createHttpError(400, 'Posting price requires a location, price and title');
     }
     const newPrice = await Price.create({
       location : location,
       price: price,
-      date: date,
+      title: title,
     });
     //await newPrice.save();
     // new resource created.
@@ -98,20 +87,20 @@ export const postPrice : RequestHandler<unknown, unknown, CreatePriceBody, unkno
   }
 };
 
-interface UpdateNoteParams {
+interface UptitleNoteParams {
   priceId: string;
 }
 
-interface UpdatePriceBody {
+interface UptitlePriceBody {
   location?: string;
   price?: string;
-  date?: string;
+  title?: string;
 }
-export const updatePrice : RequestHandler<UpdateNoteParams, unknown, UpdatePriceBody, unknown> = async (req, res, next) => {
+export const updatePrice : RequestHandler<UptitleNoteParams, unknown, UptitlePriceBody, unknown> = async (req, res, next) => {
   const priceId = req.params.priceId;
   const newLocation = req.body.location;
   const newPrice = req.body.price;
-  const newDate = req.body.date;
+  const newtitle = req.body.title;
   try {
 
     if (!mongoose.isValidObjectId(priceId)) {
@@ -124,8 +113,8 @@ export const updatePrice : RequestHandler<UpdateNoteParams, unknown, UpdatePrice
     if (!newPrice) {
       throw createHttpError(400, 'Updating price missing a price');
     }
-    if (!newDate) {
-      throw createHttpError(400, 'Updating price missing a date');
+    if (!newtitle) {
+      throw createHttpError(400, 'Updating price missing a title');
     }
     const price = await Price.findById(priceId).exec();
     if (!price) {
@@ -133,9 +122,9 @@ export const updatePrice : RequestHandler<UpdateNoteParams, unknown, UpdatePrice
     }
     price.location = newLocation;
     price.price = newPrice;
-    price.date = newDate;
-    const updatedPrice = await price.save();
-    res.status(200).json(updatedPrice);
+    price.title = newtitle;
+    const uptitledPrice = await price.save();
+    res.status(200).json(uptitledPrice);
   } catch (error) {
     next(error);
   }

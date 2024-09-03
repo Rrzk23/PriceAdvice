@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePrice = exports.updatePrice = exports.postPrice = exports.getPrice = exports.getPrices = exports.getRealTimePrices = exports.getFilteredPrices = void 0;
+exports.deletePrice = exports.updatePrice = exports.postPrice = exports.getPrice = exports.getPrices = exports.getFilteredPrices = void 0;
 const priceModel_1 = __importDefault(require("../../models/priceModel"));
 const axios_1 = __importDefault(require("axios"));
 const zod_1 = require("zod");
@@ -25,25 +25,16 @@ const FilterSettingSchema = zod_1.z.object({
     maxPrice: zod_1.z.number(),
     propertyType: zod_1.z.string(),
 });
-// Define a Zod schema for Price
-const PriceSchema = zod_1.z.object({
-    id: zod_1.z.string(),
-    location: zod_1.z.string(),
-    price: zod_1.z.number(),
-    date: zod_1.z.string(),
-});
-const PricesArraySchema = zod_1.z.array(PriceSchema);
-// Controller function to get filtered prices
 const getFilteredPrices = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const filters = req.body;
-        FilterSettingSchema.parse(filters); // Validate filter settings
+        FilterSettingSchema.parse(filters); // Valititle filter settings
         // Replace with the actual API call and logic to use the filters
         const response = yield axios_1.default.get('https://example.com/api/prices', {
             params: filters,
         });
         //const prices: Price[] = response.data;
-        //PricesArraySchema.parse(prices); // Validate the response data
+        //PricesArraySchema.parse(prices); // Valititle the response data
         //res.json(prices);
     }
     catch (error) {
@@ -51,9 +42,6 @@ const getFilteredPrices = (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.getFilteredPrices = getFilteredPrices;
-const getRealTimePrices = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-});
-exports.getRealTimePrices = getRealTimePrices;
 const getPrices = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         //throw Error('Server error');
@@ -86,15 +74,15 @@ exports.getPrice = getPrice;
 const postPrice = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const location = req.body.location;
     const price = req.body.price;
-    const date = req.body.date;
+    const title = req.body.title;
     try {
-        if (!location || !price || !date) {
-            throw (0, http_errors_1.default)(400, 'Posting price requires a location, price and date');
+        if (!location || !price || !title) {
+            throw (0, http_errors_1.default)(400, 'Posting price requires a location, price and title');
         }
         const newPrice = yield priceModel_1.default.create({
             location: location,
             price: price,
-            date: date,
+            title: title,
         });
         //await newPrice.save();
         // new resource created.
@@ -109,7 +97,7 @@ const updatePrice = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     const priceId = req.params.priceId;
     const newLocation = req.body.location;
     const newPrice = req.body.price;
-    const newDate = req.body.date;
+    const newtitle = req.body.title;
     try {
         if (!mongoose_1.default.isValidObjectId(priceId)) {
             throw (0, http_errors_1.default)(400, 'Invalid price id');
@@ -120,8 +108,8 @@ const updatePrice = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         if (!newPrice) {
             throw (0, http_errors_1.default)(400, 'Updating price missing a price');
         }
-        if (!newDate) {
-            throw (0, http_errors_1.default)(400, 'Updating price missing a date');
+        if (!newtitle) {
+            throw (0, http_errors_1.default)(400, 'Updating price missing a title');
         }
         const price = yield priceModel_1.default.findById(priceId).exec();
         if (!price) {
@@ -129,9 +117,9 @@ const updatePrice = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         }
         price.location = newLocation;
         price.price = newPrice;
-        price.date = newDate;
-        const updatedPrice = yield price.save();
-        res.status(200).json(updatedPrice);
+        price.title = newtitle;
+        const uptitledPrice = yield price.save();
+        res.status(200).json(uptitledPrice);
     }
     catch (error) {
         next(error);
