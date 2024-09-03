@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import createHttpError from 'http-errors';
-import { User } from '../models/userModel';
+import  User  from '../../models/userModel';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import bcrypt from 'bcrypt';
 
@@ -24,11 +24,11 @@ export const signUpUser: RequestHandler<unknown, unknown, SignUpUserBody, unknow
       throw createHttpError(400, 'User name, email or password missing');
     }
     // Validate email format
-    const existingUserName = await User.findOne({ userName: userName }).exec();
+    const existingUserName = await User.findOne({ username: userName }).exec();
     if (existingUserName) {
       throw createHttpError(409, 'User name already taken');
     }
-    const existingUserEmail = await User.findOne({ userEmail: userEmail }).exec();
+    const existingUserEmail = await User.findOne({ email: userEmail }).exec();
     if (existingUserEmail) {
       throw createHttpError(409, 'Email already in use');
     }
