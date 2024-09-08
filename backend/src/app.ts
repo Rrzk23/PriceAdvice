@@ -31,9 +31,9 @@ let sessionMiddleware = session({
     maxAge: 60 * 60 * 1000,
   },
   rolling: true,
-  store: process.env.CI === 'true' ? MongoStore.create({
+  store: process.env.CI === 'true' ? undefined : MongoStore.create({
     mongoUrl: env.DB_URL,
-  }) : undefined,
+  }),
 });
 
 export function setSessionStore(store: session.Store) {
