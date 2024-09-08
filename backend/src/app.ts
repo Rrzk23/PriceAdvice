@@ -58,21 +58,6 @@ export function applySessionMiddleware(app2: express.Application) {
 applySessionMiddleware(app);
 
 
-app.use(session({
-  secret: env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge : 60 * 60 * 1000,
-  },
-  rolling: true,
-  store: MongoStore.create( {
-    mongoUrl: env.DB_URL,
-
-  },
-  ),
-}),
-);
 app.use(cors(
   {
     origin: 'http://localhost:3000',

@@ -88,18 +88,6 @@ function applySessionMiddleware(app2) {
 exports.applySessionMiddleware = applySessionMiddleware;
 // Apply the session middleware
 applySessionMiddleware(app);
-app.use((0, express_session_1.default)({
-    secret: validateEnv_1.default.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 60 * 60 * 1000,
-    },
-    rolling: true,
-    store: connect_mongo_1.default.create({
-        mongoUrl: validateEnv_1.default.DB_URL,
-    }),
-}));
 app.use((0, cors_1.default)({
     origin: 'http://localhost:3000',
     credentials: true,

@@ -78,11 +78,11 @@ const loginUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function
             .select('+password +email +username')
             .exec();
         if (!user) {
-            throw (0, http_errors_1.default)(404, 'Incorrect Password or email');
+            throw (0, http_errors_1.default)(404, 'Incorrect password or email');
         }
         const isPasswordValid = yield bcrypt_1.default.compare(passwordRaw, user.password);
         if (!isPasswordValid) {
-            throw (0, http_errors_1.default)(401, 'Incorrect Password or email');
+            throw (0, http_errors_1.default)(401, 'Incorrect password or email');
         }
         req.session.userId = user._id;
         res.status(201).json(user);
