@@ -1,22 +1,12 @@
-import { Request, Response, NextFunction, RequestHandler } from 'express';
-import { FilterSetting } from '../../../shared/types';
+import { RequestHandler } from 'express';
 import Price from '../../models/priceModel';
-import axios from 'axios';
-import { z } from 'zod';
 import createHttpError from 'http-errors';
 import mongoose from 'mongoose';
 import { assertIsDefined } from '../utils/asserIsDefined';
 
-// Define a Zod schema for FilterSetting
-const FilterSettingSchema = z.object({
-  location: z.string(),
-  minPrice: z.number(),
-  maxPrice: z.number(),
-  propertyType: z.string(),
-});
 
 
-export const getFilteredPrices = async (req: Request, res: Response): Promise<void> => {
+/*export const getFilteredPrices = async (req: Request, res: Response): Promise<void> => {
   try {
     const filters: FilterSetting = req.body;
     FilterSettingSchema.parse(filters); // Valititle filter settings
@@ -33,7 +23,7 @@ export const getFilteredPrices = async (req: Request, res: Response): Promise<vo
   } catch (error) {
     res.status(500).json({ message: 'Error fetching filtered prices', error });
   }
-};
+};*/
 
 export const getPrices : RequestHandler = async (req, res, next) => {
   const authenticatedUserId = req.session.userId;
