@@ -7,19 +7,23 @@ import {Container} from 'react-bootstrap'
 import DrawerAppBar from './components/DrawerAppBar';
 import { AuthContext } from './components/Context';
 import {User} from './models/user';
-import LoggedInUserPage from './pages/LoggedInUserPage';
 import * as user_api from './network/user_api';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import LoginPage from './pages/LoginPage';
+import UserPriceNodesPage from './pages/UserPriceNodesPage';
+import SignUpPage from './pages/SingUpPage';
+import PrivacyPage from './pages/PrivacyPage';
+import NotFoundPage from './pages/NotFoundPage';
+import styles from './styles/App.module.css';
+import LoggedOutPage from './pages/LoggedOutPage';
+
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User|null>(null);
-  const handleLoginClicked = () => {
-    // navigate to login page
-  }
-  const handleSignupClicked = () => {
-    // navigate to signup page
-  }
+
   const handleLogoutClicked = () => {
     setUser(null);
+    user_api.logoutUser();
     // navigate to home page
   }
 
@@ -33,6 +37,7 @@ const App: React.FC = () => {
           console.error('Error fetching logged in user:', error);
         }
       }
+      fetchLoggedInUser();
   },[]
 );
 
@@ -40,20 +45,45 @@ const App: React.FC = () => {
   return (
     //responsive row, xs for displaying on mobile devices
     // md for tablet, lg for desktop devices.
-    <Container>
-      <AuthContext.Provider value={{user, setUser}}>
+    <BrowserRouter>
       <Container>
-        <DrawerAppBar 
-        loggedUser={user}
-        onLoginClick={handleLoginClicked}
-        onSignupClick={handleSignupClicked}
-        onLogoutClick={handleLogoutClicked}/>
-      </Container>
-      {user && <LoggedInUserPage/>}
+        <AuthContext.Provider value={{user, setUser}}>
+          <DrawerAppBar 
+          loggedUser={user}
+          onLogoutClick={handleLogoutClicked}/>
+        
+        <Container className={styles.pageContainer}>
+          <Routes>
+            <Route
+              path = '/'
+              element={<UserPriceNodesPage/>}
+            />
+            <Route
+              path = 'login'
+              element={<LoginPage/>}
+              />
+            <Route
+            path = 'signup'
+            element={<SignUpPage/>}
+            />
+            <Route
+            path = 'privacy'
+            element={<PrivacyPage/>}
+            />
+            <Route
+            path = '/logout'
+            element={<LoggedOutPage/>}
+            />
+            <Route
+            path = '/*'
+            element={<NotFoundPage/>}
+            />
+          </Routes>
+        </Container>
 
-      </AuthContext.Provider>
-    </Container>
-    
+        </AuthContext.Provider>
+      </Container>
+    </BrowserRouter>
   );
 }
 

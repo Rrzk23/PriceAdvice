@@ -8,24 +8,29 @@ import { Price } from '../models/price';
 import * as PriceNoteApi from "../network/priceNote_api";
 import styles from "../styles/PriceNotes.module.css";
 import utilsStlyes from "../styles/utils.module.css";
+import { AuthContext } from '../components/Context';
 
 
 
 
 
-const LoggedInUserPage = () => {
+const UserPriceNodesPage = () => {
 
+
+    const user = React.useContext(AuthContext).user;
     const [prices, setPrices] = React.useState<Price[]>([]);
     const [showAddPriceNoteDialog, setShowAddPriceNoteDialog] = React.useState<boolean>(false);
     const [showEditPriceNoteDialog, setShowEditPriceNoteDialog] = React.useState<boolean>(false);
     const [priceNoteToEdit, setPriceNoteToEdit] = React.useState<Price|null>(null);
     const [isPricesloading, setIsPricesloading] = React.useState<boolean>(true);
     const [showPricesLoadingError, setShowPricesLoadingError] = React.useState<boolean>(false);
+    const [showLoginLodaingWarning, setLoginLodaingWarning] = React.useState<boolean>(false);
 
 
 
     React.useEffect(() => {
         async function fetchPrices() {
+
           try{
             //在package.json 加了proxy就不需要前缀同时避开了cros error
             //如果想要后台api可以被任何访问需要用corspackage
@@ -38,14 +43,19 @@ const LoggedInUserPage = () => {
           }
           catch(error){
             console.error("Error fetching prices: ", error);
-            setShowPricesLoadingError(true);
+            if (!user) {
+              setLoginLodaingWarning(true);
+            }
+            else {
+              setShowPricesLoadingError(true);
+            }
           }
           finally{
             setIsPricesloading(false);
           }
         }
         fetchPrices();
-      }, []);
+      }, [user]);
 
     const handleAddPriceNoteDialogShow = () => {
         setShowAddPriceNoteDialog(true);
@@ -93,21 +103,27 @@ const LoggedInUserPage = () => {
           aria-hidden="true"/>
       }
 
+      {showLoginLodaingWarning &&
+        <Alert variant="outlined" severity="warning" >
+          Please login to add price notes
+        </Alert>
+      }
+
       {showPricesLoadingError && 
         <Alert variant="outlined" severity="error" >
           Error fetching prices, please try again later!
         </Alert>
       }
 
-      {prices.length === 0 &&!isPricesloading &&!showPricesLoadingError &&
+      {prices.length === 0 &&!isPricesloading &&!showPricesLoadingError && user !== null &&
         <Alert variant="outlined" severity="info" onClose={() => {}}>
-          You dont't have any price note yet! Add Some
+          You don't have any price note yet! Add Some
         </Alert>
       }
       { prices.length > 0 &&!isPricesloading &&!showPricesLoadingError &&
-        <Row xs={1} md={2} lg={3} className={`g-4${styles.priceNotesGrid}`}>
+        <Row xs={1} md={2} lg={3} className={`g-4 ${styles.priceNoteGrid}`}>
           {prices.map((note: Price) => (
-            <Col key={note._id} className={styles.priceNotesCol}>
+            <Col key={note._id} >
               <PriceNote
                 priceNote={note} 
                 key ={note._id} 
@@ -123,7 +139,7 @@ const LoggedInUserPage = () => {
       <Button
         className={`'mb-4' ${utilsStlyes.blockCenter} ${utilsStlyes.flexCenter}`}
         onClick = {handleAddPriceNoteDialogShow}
-        disabled = {isPricesloading || showPricesLoadingError}>
+        disabled = {isPricesloading || showPricesLoadingError || showLoginLodaingWarning}>
         
           <CgAdd />
           Add new note
@@ -162,4 +178,4 @@ const LoggedInUserPage = () => {
     )
 }
 
-export default LoggedInUserPage;
+export default UserPriceNodesPage;

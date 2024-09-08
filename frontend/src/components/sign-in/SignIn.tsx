@@ -13,20 +13,19 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import {
-  ThemeProvider,
-  createTheme,
   styled,
-  PaletteMode,
 } from '@mui/material/styles';
 import ForgotPassword from './ForgotPassword';
-import getSignInTheme from './theme/getSignInTheme';
+
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
-import TemplateFrame from './TemplateFrame';
+
 
 import { User } from '../../models/user';
 import { LoginCredentials } from '../../network/user_api';
 import * as user_api from '../../network/user_api';
-import {FieldErrors, useForm}  from "react-hook-form";
+import {useForm}  from "react-hook-form";
+import { NotFoundHttpError, UnautorizedHttpError } from '../../errors/http-errors';
+import { Alert } from '@mui/material';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -65,42 +64,14 @@ interface SignInProps {
 }
 
 export default function SignIn(props: SignInProps) {
-  const [mode, setMode] = React.useState<PaletteMode>('light');
-  const [showCustomTheme, setShowCustomTheme] = React.useState(true);
-  const defaultTheme = createTheme({ palette: { mode } });
-  const SignInTheme = createTheme(getSignInTheme(mode));
+  const [errorText, setErrorText] = React.useState<string|null>(null);
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
 
-  const {register, handleSubmit, reset, formState: {errors, isSubmitting}} = useForm<LoginCredentials>();
-
-  // This code only runs on the client side, to determine the system color preference
-  React.useEffect(() => {
-    // Check if there is a preferred mode in localStorage
-    const savedMode = localStorage.getItem('themeMode') as PaletteMode | null;
-    if (savedMode) {
-      setMode(savedMode);
-    } else {
-      // If no preference is found, it uses system preference
-      const systemPrefersDark = window.matchMedia(
-        '(prefers-color-scheme: dark)',
-      ).matches;
-      setMode(systemPrefersDark ? 'dark' : 'light');
-    }
-  }, []);
-
-  const toggleColorMode = () => {
-    const newMode = mode === 'dark' ? 'light' : 'dark';
-    setMode(newMode);
-    localStorage.setItem('themeMode', newMode); // Save the selected mode to localStorage
-  };
-
-  const toggleCustomTheme = () => {
-    setShowCustomTheme((prev) => !prev);
-  };
+  const {register, handleSubmit, reset, formState: {isSubmitting}} = useForm<LoginCredentials>();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -119,8 +90,17 @@ export default function SignIn(props: SignInProps) {
       props.onLoginSuccessfully(user);
       reset()
     } catch (error) {
+      if (error instanceof UnautorizedHttpError) {
+        setErrorText(error.message);
+      }
+      else if (error instanceof NotFoundHttpError) {
+        setErrorText(error.message);
+      }
+      else {
+        alert(error);
+      }
       console.error('Error at log in', error);
-      alert(error);
+      
     }
   };
 
@@ -142,15 +122,12 @@ export default function SignIn(props: SignInProps) {
   };
 
   return (
-    <TemplateFrame
-      toggleCustomTheme={toggleCustomTheme}
-      showCustomTheme={showCustomTheme}
-      mode={mode}
-      toggleColorMode={toggleColorMode}
-    >
-      <ThemeProvider theme={showCustomTheme ? SignInTheme : defaultTheme}>
-        <CssBaseline enableColorScheme />
+        
         <SignInContainer direction="column" justifyContent="space-between">
+          {
+            errorText && 
+            <Alert variant="outlined" severity="error" >{errorText}</Alert>
+          }
           <Card variant="outlined">
             <SitemarkIcon />
             <Typography
@@ -158,7 +135,7 @@ export default function SignIn(props: SignInProps) {
               variant="h4"
               sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
             >
-              Sign in
+              Log in
             </Typography>
             <Box
               component="form"
@@ -227,13 +204,13 @@ export default function SignIn(props: SignInProps) {
                 variant="contained"
                 disabled={isSubmitting}
               >
-                Sign in
+                Log in
               </Button>
               <Typography sx={{ textAlign: 'center' }}>
                 Don&apos;t have an account?{' '}
                 <span>
                   <Link
-                    href="/material-ui/getting-started/templates/sign-in/"
+                    href="/signup"
                     variant="body2"
                     sx={{ alignSelf: 'center' }}
                   >
@@ -250,6 +227,7 @@ export default function SignIn(props: SignInProps) {
                 variant="outlined"
                 onClick={() => alert('Sign in with Google')}
                 startIcon={<GoogleIcon />}
+                disabled = {true}
               >
                 Sign in with Google
               </Button>
@@ -259,13 +237,12 @@ export default function SignIn(props: SignInProps) {
                 variant="outlined"
                 onClick={() => alert('Sign in with Facebook')}
                 startIcon={<FacebookIcon />}
+                disabled = {true}
               >
                 Sign in with Facebook
               </Button>
             </Box>
           </Card>
         </SignInContainer>
-      </ThemeProvider>
-    </TemplateFrame>
   );
 }

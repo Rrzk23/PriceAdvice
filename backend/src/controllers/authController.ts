@@ -79,11 +79,11 @@ export const loginUser : RequestHandler<unknown, unknown, LoginUserBody, unknown
       .select('+password +email +username')
       .exec();
     if (!user) {
-      throw createHttpError(404, 'User not found');
+      throw createHttpError(404, 'Incorrect password or email');
     }
     const isPasswordValid = await bcrypt.compare(passwordRaw, user.password);
     if (!isPasswordValid) {
-      throw createHttpError(401, 'Invalid password');
+      throw createHttpError(401, 'Incorrect password or email');
     }
     req.session.userId = user._id;
     res.status(201).json(user);

@@ -26,6 +26,8 @@ import TemplateFrame from './TemplateFrame';
 import { SignUpCredentials } from '../../network/user_api';
 import * as user_api from '../../network/user_api';
 import { User } from '../../models/user';
+import { BadRequestHttpError, ConflicHttptError, NotFoundHttpError, UnautorizedHttpError } from '../../errors/http-errors';
+import { Alert } from '@mui/material';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -63,6 +65,7 @@ interface SignUpProps {
   onSignUpSuccessfully : (user : User) => void;
 }
 export default function SignUp(props : SignUpProps) {
+  const [errorText, setErrorText] = React.useState<string|null>(null);
   const [mode, setMode] = React.useState<PaletteMode>('light');
   const [showCustomTheme, setShowCustomTheme] = React.useState(true);
   const defaultTheme = createTheme({ palette: { mode } });
@@ -146,14 +149,32 @@ export default function SignUp(props : SignUpProps) {
       props.onSignUpSuccessfully(newUser);
       reset()
     } catch (error) {
-      console.error('Error at Signing up', error);
-      alert(error);
+        if (error instanceof UnautorizedHttpError) {
+          setErrorText(error.message);
+        }
+        else if (error instanceof NotFoundHttpError) {
+          setErrorText(error.message);
+        }
+        else if (error instanceof ConflicHttptError) {
+          setErrorText(error.message);
+        }
+        else if (error instanceof BadRequestHttpError) {
+          setErrorText(error.message);
+        }
+        else {
+          alert(error);
+        }
+        console.error('Error at log in', error);
     }
   };
 
   return (
 
         <SignUpContainer direction="column" justifyContent="space-between">
+          {
+            errorText && 
+            <Alert variant="outlined" severity="error" >{errorText}</Alert>
+          }
           <Stack
             sx={{
               justifyContent: 'center',
@@ -233,7 +254,7 @@ export default function SignUp(props : SignUpProps) {
                   Already have an account?{' '}
                   <span>
                     <Link
-                      href="/material-ui/getting-started/templates/sign-in/"
+                      href="/login"
                       variant="body2"
                       sx={{ alignSelf: 'center' }}
                     >

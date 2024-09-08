@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 import {User} from '../models/user';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -23,9 +24,9 @@ const drawerWidth = 240;
 interface DrawerAppBarProps {
   window? : () => Window;
   loggedUser: User|null;
-  onLoginClick: () => void;
+  
   onLogoutClick: () => void;
-  onSignupClick: () => void;
+  
 }
 
 interface NavItem {
@@ -50,12 +51,6 @@ export default function DrawerAppBar(props: DrawerAppBarProps) {
   const handleDrawerButtonClick = (item : string) => {
     // TODO: Implement navigation based on item
     switch (item) {
-      case 'login':
-        props.onLoginClick();
-        break;
-      case'signup':
-        props.onSignupClick();
-        break;
       case 'logout':
         props.onLogoutClick();
         break;
@@ -63,14 +58,14 @@ export default function DrawerAppBar(props: DrawerAppBarProps) {
         console.error('Invalid nav item:', item);
         return;  // Ensure the function doesn't continue if the invalid item is provided.
     }
-    console.log(`Navigating to ${item}`);
+    
   }
   React.useEffect(() => {
 
     if (props.loggedUser) {
       //items.filter(item => item !== 'Login');
       setItems([
-        {name: 'profile', text: 'Profie'}, 
+       // {name: 'profile', text: 'Profie'}, 
         {name: 'logout', text: 'Log out'},
         {name: 'username', text: `Signed in as ${props.loggedUser.username}`}
       ] 
@@ -89,12 +84,15 @@ export default function DrawerAppBar(props: DrawerAppBarProps) {
       <List>
         
         {items.map((item) => (
+          <Link to={`/${item.name}`}>
           <ListItem key={item.name} disablePadding>
             <ListItemButton sx={{ textAlign: 'center' }}>
               <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
+          </Link>
         ))}
+        
       </List>
     </Box>
   );
@@ -115,18 +113,24 @@ export default function DrawerAppBar(props: DrawerAppBarProps) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          >
-            MUI
-          </Typography>
+          
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            >
+              ICON
+              
+            </Typography>
+          
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            
             {items.map((item) => (
-              <Button key={item.name} sx={{ color: '#fff' }} onClick={() => handleDrawerButtonClick(item.name)}>
-                {item.text}
-              </Button>
+              <Link to={`/${item.name}`}>
+                <Button key={item.name} sx={{ color: '#fff' }} onClick={() => handleDrawerButtonClick(item.name)}>
+                  {item.text}
+                </Button>
+              </Link>
             ))}
           </Box>
         </Toolbar>

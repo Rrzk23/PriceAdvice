@@ -46,6 +46,7 @@ const PriceNote = (prop : PriceNoteProps) => {
                         title="delete this note"
                     />
                 </Card.Title>
+                
                 <Card.Text>
                     Location: {location}
                     <br/>

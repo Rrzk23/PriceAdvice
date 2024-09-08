@@ -1,4 +1,5 @@
 import { Price } from '../models/price';
+import {BadRequestHttpError, ConflicHttptError, NotFoundHttpError, UnautorizedHttpError} from '../errors/http-errors';
 // using fetch data to get the response first and return either the response or the error message.
 export async function fetchData(input: RequestInfo, init?: RequestInit){
  
@@ -9,7 +10,21 @@ export async function fetchData(input: RequestInfo, init?: RequestInit){
     else {
         const errorBody = await response.json();
         const errorMessage = errorBody.error;
-        throw Error(errorMessage);
+        switch(response.status) {
+            case 401:
+                throw new UnautorizedHttpError(errorMessage);
+            case 404:
+                throw new NotFoundHttpError(errorMessage);
+            case 409:
+                throw new ConflicHttptError(errorMessage);
+            case 400:
+                throw new BadRequestHttpError(errorMessage);
+            default:
+                throw new Error('Request failed with status ' + response.status + ': ' + errorMessage);
+        }
+
+
+        
     }
 
 }
