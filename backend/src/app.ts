@@ -3,12 +3,12 @@
 
 import express, { Application, NextFunction, Request, Response } from 'express';
 import 'dotenv/config.js';
-import rateLimit from 'express-rate-limit';
-import axios from 'axios';
+//import rateLimit from 'express-rate-limit';
+//import axios from 'axios';
 import priceRoutes from './routes/priceRoutes';
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
-import priceProcess from './priceProcessing';
+//import priceProcess from './priceProcessing';
 import morgan from 'morgan';
 import createHttpError, { isHttpError } from 'http-errors';
 import session from 'express-session';
@@ -67,7 +67,7 @@ app.use(cors(
 app.use(morgan('dev'));
 
 // Load environment variables
-const RapidAPIKey: string = env.RAPIDAPI_KEY;
+//const RapidAPIKey: string = env.RAPIDAPI_KEY;
 
 app.use('/api/auth', authRoutes);
 app.use('/api/prices', requireAuth, priceRoutes);
@@ -91,12 +91,12 @@ app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
   res.status(statuscode).json({ error: errorMessage });
 });
 
-app.post('/hi', (req, res) => {
+/*app.post('/hi', (req, res) => {
   const { state, suburb, zip, bedrooms, bathrooms, garage, priceMin, priceMax, areaMin, areaMax } = req.body;
   console.log('Hello, we get ' + state);
   res.send(JSON.stringify(req.body));
-});
-
+});*/
+/*
 app.get('/list', async (req, res) => {
   const query = req.query;
   const suggesstions = {
@@ -154,6 +154,6 @@ app.get('/list', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Failed to fetch properties' });
   }
-});
+});*/
 
 export default app;

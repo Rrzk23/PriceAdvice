@@ -24,15 +24,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -40,11 +31,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.applySessionMiddleware = exports.setSessionStore = void 0;
 const express_1 = __importDefault(require("express"));
 require("dotenv/config.js");
-const axios_1 = __importDefault(require("axios"));
+//import rateLimit from 'express-rate-limit';
+//import axios from 'axios';
 const priceRoutes_1 = __importDefault(require("./routes/priceRoutes"));
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
-const priceProcessing_1 = __importDefault(require("./priceProcessing"));
+//import priceProcess from './priceProcessing';
 const morgan_1 = __importDefault(require("morgan"));
 const http_errors_1 = __importStar(require("http-errors"));
 const express_session_1 = __importDefault(require("express-session"));
@@ -94,7 +86,7 @@ app.use((0, cors_1.default)({
 }));
 app.use((0, morgan_1.default)('dev'));
 // Load environment variables
-const RapidAPIKey = validateEnv_1.default.RAPIDAPI_KEY;
+//const RapidAPIKey: string = env.RAPIDAPI_KEY;
 app.use('/api/auth', authRoutes_1.default);
 app.use('/api/prices', auth_1.requireAuth, priceRoutes_1.default);
 app.use('/api/', auth_1.requireAuth, userRoutes_1.default);
@@ -113,68 +105,68 @@ app.use((error, req, res, next) => {
     //console.error('Test Error:', error);
     res.status(statuscode).json({ error: errorMessage });
 });
-app.post('/hi', (req, res) => {
-    const { state, suburb, zip, bedrooms, bathrooms, garage, priceMin, priceMax, areaMin, areaMax } = req.body;
-    console.log('Hello, we get ' + state);
-    res.send(JSON.stringify(req.body));
-});
-app.get('/list', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const query = req.query;
-    const suggesstions = {
-        method: 'GET',
-        url: 'https://realty-in-au.p.rapidapi.com/auto-complete',
-        params: { query: query },
-        headers: {
-            'X-RapidAPI-Key': RapidAPIKey,
-            'X-RapidAPI-Host': 'realty-in-au.p.rapidapi.com',
-        },
-    };
-    let searchLocation;
-    let searchLocationSubtext;
-    let type;
-    try {
-        const response = yield axios_1.default.request(suggesstions);
-        const suggesstion = response.data.suggesstions[0];
-        searchLocation = suggesstion.display.text;
-        searchLocationSubtext = suggesstion.display.subtext;
-        type = suggesstion.type;
-    }
-    catch (error) {
-        console.error(error);
-    }
-    const channel = req.query.channel;
-    const sort = req.query.sort;
-    const options = {
-        method: 'GET',
-        url: 'https://realty-in-au.p.rapidapi.com/properties/list',
-        params: {
-            channel: channel || 'buy',
-            searchLocation: searchLocation,
-            searchLocationSubtext: searchLocationSubtext,
-            type: type,
-            page: '1',
-            pageSize: '50',
-            sortType: sort || 'relevance',
-            surroundingSuburbs: 'true',
-            'ex-under-contract': 'false',
-        },
-        headers: {
-            'X-RapidAPI-Key': RapidAPIKey,
-            'X-RapidAPI-Host': 'realty-in-au.p.rapidapi.com',
-        },
-    };
-    try {
-        const response = yield axios_1.default.request(options);
-        const results = response.data.tieredResults[0].results;
-        const prices = results.map((result) => ({
-            address: `${result.address.streetAddress} ${result.address.suburb} ${result.address.postcode}`,
-            price: (0, priceProcessing_1.default)(result.price.display),
-        }));
-        res.json(prices);
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Failed to fetch properties' });
-    }
-}));
+/*app.post('/hi', (req, res) => {
+  const { state, suburb, zip, bedrooms, bathrooms, garage, priceMin, priceMax, areaMin, areaMax } = req.body;
+  console.log('Hello, we get ' + state);
+  res.send(JSON.stringify(req.body));
+});*/
+/*
+app.get('/list', async (req, res) => {
+  const query = req.query;
+  const suggesstions = {
+    method: 'GET',
+    url: 'https://realty-in-au.p.rapidapi.com/auto-complete',
+    params: { query: query },
+    headers: {
+      'X-RapidAPI-Key': RapidAPIKey,
+      'X-RapidAPI-Host': 'realty-in-au.p.rapidapi.com',
+    },
+  };
+  let searchLocation: string | undefined;
+  let searchLocationSubtext: string | undefined;
+  let type: string | undefined;
+  try {
+    const response = await axios.request(suggesstions);
+    const suggesstion = response.data.suggesstions[0];
+    searchLocation = suggesstion.display.text;
+    searchLocationSubtext = suggesstion.display.subtext;
+    type = suggesstion.type;
+  } catch (error) {
+    console.error(error);
+  }
+  const channel: string | undefined = req.query.channel as string;
+  const sort: string | undefined = req.query.sort as string;
+  const options = {
+    method: 'GET',
+    url: 'https://realty-in-au.p.rapidapi.com/properties/list',
+    params: {
+      channel: channel || 'buy',
+      searchLocation: searchLocation,
+      searchLocationSubtext: searchLocationSubtext,
+      type: type,
+      page: '1',
+      pageSize: '50',
+      sortType: sort || 'relevance',
+      surroundingSuburbs: 'true',
+      'ex-under-contract': 'false',
+    },
+    headers: {
+      'X-RapidAPI-Key': RapidAPIKey,
+      'X-RapidAPI-Host': 'realty-in-au.p.rapidapi.com',
+    },
+  };
+
+  try {
+    const response = await axios.request(options);
+    const results = response.data.tieredResults[0].results;
+    const prices = results.map((result: any) => ({
+      address: `${result.address.streetAddress} ${result.address.suburb} ${result.address.postcode}`,
+      price: priceProcess(result.price.display),
+    }));
+    res.json(prices);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch properties' });
+  }
+});*/
 exports.default = app;
