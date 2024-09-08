@@ -46,7 +46,7 @@ const AddEditPriceNoteDialog = (prop : AddPriceNoteDialogProp) => {
         // TODO: handle specific error messages for each field
     } ;
     return (
-        <Modal show = {prop.show} onHide={prop.onHide}>
+        <Modal show = {prop.show} onHide={prop.onHide} aria-labelledby="contained-modal-title-vcenter" centered>
             <Modal.Header closeButton>
                 <Modal.Title>
                     {prop.priceToEdit ? "Edit Price Note" : "Add Price Note"}

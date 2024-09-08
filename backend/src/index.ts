@@ -1,13 +1,15 @@
+import 'dotenv/config.js';
 import mongoose from 'mongoose';
 import app  from './app';
+import env from './utils/validateEnv';
 
 
 // Load environment variables
-const PORT: number = parseInt(process.env.PORT || '5000', 10);
+const PORT: number = env.PORT;
 
 // Function to start the server
 export const startServer = async (): Promise<void>=> {
-  mongoose.connect(process.env.DB_URL!).then( () => {
+  mongoose.connect(env.DB_URL!).then( () => {
     console.log('Connected to database');
     app.listen(PORT, () => {
       console.log(`Server started on port ${PORT}`);

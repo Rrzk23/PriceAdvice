@@ -18,6 +18,7 @@ const axios_1 = __importDefault(require("axios"));
 const zod_1 = require("zod");
 const http_errors_1 = __importDefault(require("http-errors"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const asserIsDefined_1 = require("../utils/asserIsDefined");
 // Define a Zod schema for FilterSetting
 const FilterSettingSchema = zod_1.z.object({
     location: zod_1.z.string(),
@@ -43,9 +44,11 @@ const getFilteredPrices = (req, res) => __awaiter(void 0, void 0, void 0, functi
 });
 exports.getFilteredPrices = getFilteredPrices;
 const getPrices = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const authenticatedUserId = req.session.userId;
     try {
+        (0, asserIsDefined_1.assertIsDefined)(authenticatedUserId);
         //throw Error('Server error');
-        const price = yield priceModel_1.default.find().exec();
+        const price = yield priceModel_1.default.find({ userId: authenticatedUserId }).exec();
         res.status(200).json(price);
     }
     catch (error) {
@@ -56,13 +59,18 @@ const getPrices = (req, res, next) => __awaiter(void 0, void 0, void 0, function
 exports.getPrices = getPrices;
 const getPrice = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const priceId = req.params.priceId;
+    const authenticatedUserId = req.session.userId;
     try {
+        (0, asserIsDefined_1.assertIsDefined)(authenticatedUserId);
         if (!mongoose_1.default.isValidObjectId(priceId)) {
             throw (0, http_errors_1.default)(400, 'Invalid price id');
         }
         const price = yield priceModel_1.default.findById(priceId).exec();
         if (!price) {
             throw (0, http_errors_1.default)(404, 'Price not found');
+        }
+        if (!price.userId.equals(authenticatedUserId)) {
+            throw (0, http_errors_1.default)(401, 'User not authorized');
         }
         res.status(200).json(price);
     }
@@ -75,11 +83,14 @@ const postPrice = (req, res, next) => __awaiter(void 0, void 0, void 0, function
     const location = req.body.location;
     const price = req.body.price;
     const title = req.body.title;
+    const authenticatedUserId = req.session.userId;
     try {
+        (0, asserIsDefined_1.assertIsDefined)(authenticatedUserId);
         if (!location || !price || !title) {
             throw (0, http_errors_1.default)(400, 'Posting price requires a location, price and title');
         }
         const newPrice = yield priceModel_1.default.create({
+            userId: authenticatedUserId,
             location: location,
             price: price,
             title: title,
@@ -98,7 +109,9 @@ const updatePrice = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     const newLocation = req.body.location;
     const newPrice = req.body.price;
     const newtitle = req.body.title;
+    const authenticatedUserId = req.session.userId;
     try {
+        (0, asserIsDefined_1.assertIsDefined)(authenticatedUserId);
         if (!mongoose_1.default.isValidObjectId(priceId)) {
             throw (0, http_errors_1.default)(400, 'Invalid price id');
         }
@@ -118,6 +131,9 @@ const updatePrice = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         price.location = newLocation;
         price.price = newPrice;
         price.title = newtitle;
+        if (!price.userId.equals(authenticatedUserId)) {
+            throw (0, http_errors_1.default)(401, 'User not authorized');
+        }
         const uptitledPrice = yield price.save();
         res.status(200).json(uptitledPrice);
     }
@@ -128,13 +144,18 @@ const updatePrice = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
 exports.updatePrice = updatePrice;
 const deletePrice = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const priceId = req.params.priceId;
+    const authenticatedUserId = req.session.userId;
     try {
+        (0, asserIsDefined_1.assertIsDefined)(authenticatedUserId);
         if (!mongoose_1.default.isValidObjectId(priceId)) {
             throw (0, http_errors_1.default)(400, 'Invalid price id');
         }
         const price = yield priceModel_1.default.findById(priceId).exec();
         if (!price) {
             throw (0, http_errors_1.default)(404, 'Price not found');
+        }
+        if (!price.userId.equals(authenticatedUserId)) {
+            throw (0, http_errors_1.default)(401, 'User not authorized');
         }
         yield priceModel_1.default.findByIdAndDelete(priceId).exec();
         res.sendStatus(200);

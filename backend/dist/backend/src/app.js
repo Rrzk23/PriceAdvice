@@ -37,8 +37,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.applySessionMiddleware = exports.setSessionStore = void 0;
 const express_1 = __importDefault(require("express"));
-const dotenv_1 = __importDefault(require("dotenv"));
+require("dotenv/config.js");
 const axios_1 = __importDefault(require("axios"));
 const priceRoutes_1 = __importDefault(require("./routes/priceRoutes"));
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
@@ -46,17 +47,69 @@ const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const priceProcessing_1 = __importDefault(require("./priceProcessing"));
 const morgan_1 = __importDefault(require("morgan"));
 const http_errors_1 = __importStar(require("http-errors"));
+const express_session_1 = __importDefault(require("express-session"));
+const validateEnv_1 = __importDefault(require("./utils/validateEnv"));
+const connect_mongo_1 = __importDefault(require("connect-mongo"));
+const cors_1 = __importDefault(require("cors"));
+const auth_1 = require("./middleware/auth");
 // Initialize environment variables
-dotenv_1.default.config();
 // Create an Express application
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+let sessionMiddleware = (0, express_session_1.default)({
+    secret: validateEnv_1.default.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60 * 60 * 1000,
+    },
+    rolling: true,
+    store: connect_mongo_1.default.create({
+        mongoUrl: validateEnv_1.default.DB_URL,
+    }),
+});
+function setSessionStore(store) {
+    sessionMiddleware = (0, express_session_1.default)({
+        secret: 'test-secret',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            maxAge: 60 * 60 * 1000,
+        },
+        rolling: true,
+        store: store,
+    });
+}
+exports.setSessionStore = setSessionStore;
+// Use a function to apply session middleware
+function applySessionMiddleware(app2) {
+    app2.use(sessionMiddleware);
+}
+exports.applySessionMiddleware = applySessionMiddleware;
+// Apply the session middleware
+applySessionMiddleware(app);
+app.use((0, express_session_1.default)({
+    secret: validateEnv_1.default.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60 * 60 * 1000,
+    },
+    rolling: true,
+    store: connect_mongo_1.default.create({
+        mongoUrl: validateEnv_1.default.DB_URL,
+    }),
+}));
+app.use((0, cors_1.default)({
+    origin: 'http://localhost:3000',
+    credentials: true,
+}));
 app.use((0, morgan_1.default)('dev'));
 // Load environment variables
-const RapidAPIKey = process.env.RAPIDAPI_KEY;
-app.use('/api/prices', priceRoutes_1.default);
-app.use('/api/login', authRoutes_1.default);
-app.use('/api/', userRoutes_1.default);
+const RapidAPIKey = validateEnv_1.default.RAPIDAPI_KEY;
+app.use('/api/auth', authRoutes_1.default);
+app.use('/api/prices', auth_1.requireAuth, priceRoutes_1.default);
+app.use('/api/', auth_1.requireAuth, userRoutes_1.default);
 // For unidentified endpoints
 app.use((req, res, next) => {
     next((0, http_errors_1.default)(404, 'Endpoint not found'));
@@ -69,6 +122,7 @@ app.use((error, req, res, next) => {
         statuscode = error.status;
         errorMessage = error.message;
     }
+    //console.error('Test Error:', error);
     res.status(statuscode).json({ error: errorMessage });
 });
 app.post('/hi', (req, res) => {

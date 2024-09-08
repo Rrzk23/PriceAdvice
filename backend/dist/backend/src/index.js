@@ -13,13 +13,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.startServer = void 0;
+require("dotenv/config.js");
 const mongoose_1 = __importDefault(require("mongoose"));
 const app_1 = __importDefault(require("./app"));
+const validateEnv_1 = __importDefault(require("./utils/validateEnv"));
 // Load environment variables
-const PORT = parseInt(process.env.PORT || '5000', 10);
+const PORT = validateEnv_1.default.PORT;
 // Function to start the server
 const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
-    mongoose_1.default.connect(process.env.DB_URL).then(() => {
+    mongoose_1.default.connect(validateEnv_1.default.DB_URL).then(() => {
         console.log('Connected to database');
         app_1.default.listen(PORT, () => {
             console.log(`Server started on port ${PORT}`);

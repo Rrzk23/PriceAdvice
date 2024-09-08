@@ -22,7 +22,7 @@ module.exports = {
       // Customize your rules here
       'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
       'import/extensions': ['error', 'never', { js: 'always', jsx: 'always' }],
-      'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/test/**/*.js', '**/*.spec.js'] }],
+      'import/no-extraneous-dependencies': ['error',  {"devDependencies": true} ],
       'no-console': 'warn',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       

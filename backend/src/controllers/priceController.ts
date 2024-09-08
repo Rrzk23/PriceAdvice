@@ -5,6 +5,7 @@ import axios from 'axios';
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import mongoose from 'mongoose';
+import { assertIsDefined } from '../utils/asserIsDefined';
 
 // Define a Zod schema for FilterSetting
 const FilterSettingSchema = z.object({
@@ -35,9 +36,13 @@ export const getFilteredPrices = async (req: Request, res: Response): Promise<vo
 };
 
 export const getPrices : RequestHandler = async (req, res, next) => {
+  const authenticatedUserId = req.session.userId;
+
   try {
+    assertIsDefined(authenticatedUserId);
+    
     //throw Error('Server error');
-    const price = await Price.find().exec();
+    const price = await Price.find({ userId: authenticatedUserId }).exec();
     res.status(200).json(price);
   } catch (error) { 
     //middleware  
@@ -47,13 +52,18 @@ export const getPrices : RequestHandler = async (req, res, next) => {
 };
 export const getPrice : RequestHandler = async (req, res, next) => {
   const priceId = req.params.priceId;
+  const authenticatedUserId = req.session.userId;
   try {
+    assertIsDefined(authenticatedUserId);
     if (!mongoose.isValidObjectId(priceId)) {
       throw createHttpError(400, 'Invalid price id');
     }
     const price = await Price.findById(priceId).exec();
     if (!price) {
       throw createHttpError(404, 'Price not found');
+    }
+    if (!price.userId.equals(authenticatedUserId)) {
+      throw createHttpError(401, 'User not authorized');
     }
     res.status(200).json(price);
   } catch (error) {
@@ -70,11 +80,14 @@ export const postPrice : RequestHandler<unknown, unknown, CreatePriceBody, unkno
   const location = req.body.location;
   const price = req.body.price;
   const title = req.body.title;
+  const authenticatedUserId = req.session.userId;
   try {
+    assertIsDefined(authenticatedUserId);
     if (!location || !price || !title) {
       throw createHttpError(400, 'Posting price requires a location, price and title');
     }
     const newPrice = await Price.create({
+      userId : authenticatedUserId,
       location : location,
       price: price,
       title: title,
@@ -101,8 +114,9 @@ export const updatePrice : RequestHandler<UptitleNoteParams, unknown, UptitlePri
   const newLocation = req.body.location;
   const newPrice = req.body.price;
   const newtitle = req.body.title;
+  const authenticatedUserId = req.session.userId;
   try {
-
+    assertIsDefined(authenticatedUserId);
     if (!mongoose.isValidObjectId(priceId)) {
       throw createHttpError(400, 'Invalid price id');
     }
@@ -123,6 +137,9 @@ export const updatePrice : RequestHandler<UptitleNoteParams, unknown, UptitlePri
     price.location = newLocation;
     price.price = newPrice;
     price.title = newtitle;
+    if (!price.userId.equals(authenticatedUserId)) {
+      throw createHttpError(401, 'User not authorized');
+    }
     const uptitledPrice = await price.save();
     res.status(200).json(uptitledPrice);
   } catch (error) {
@@ -131,13 +148,18 @@ export const updatePrice : RequestHandler<UptitleNoteParams, unknown, UptitlePri
 };
 export const deletePrice : RequestHandler = async (req, res, next) => {
   const priceId = req.params.priceId;
+  const authenticatedUserId = req.session.userId;
   try {
+    assertIsDefined(authenticatedUserId);
     if (!mongoose.isValidObjectId(priceId)) {
       throw createHttpError(400, 'Invalid price id');
     }
     const price = await Price.findById(priceId).exec();
     if (!price) {
       throw createHttpError(404, 'Price not found');
+    }
+    if (!price.userId.equals(authenticatedUserId)) {
+      throw createHttpError(401, 'User not authorized');
     }
     await Price.findByIdAndDelete(priceId).exec();
 

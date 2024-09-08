@@ -25,7 +25,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const authController = __importStar(require("../controllers/authController"));
+const auth_1 = require("../middleware/auth");
 const router = (0, express_1.Router)();
-router.get('/signup', authController.signUpUser);
+router.get('/', auth_1.requireAuth, authController.getAuthenticatedUser);
+router.post('/signup', authController.signUpUser);
 router.post('/login', authController.loginUser); // Add POST route for filter
+router.post('/logout', authController.logoutUser);
 exports.default = router;

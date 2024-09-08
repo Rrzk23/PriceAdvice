@@ -1,6 +1,6 @@
 import { Price } from '../models/price';
 // using fetch data to get the response first and return either the response or the error message.
-async function fetchData(input: RequestInfo, init?: RequestInit){
+export async function fetchData(input: RequestInfo, init?: RequestInit){
  
     const response = await fetch(input,init);
     if(response.ok) {

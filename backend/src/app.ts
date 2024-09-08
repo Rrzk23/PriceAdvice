@@ -2,7 +2,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 import express, { Application, NextFunction, Request, Response } from 'express';
-import dotenv from 'dotenv';
+import 'dotenv/config.js';
 import rateLimit from 'express-rate-limit';
 import axios from 'axios';
 import priceRoutes from './routes/priceRoutes';
@@ -11,21 +11,83 @@ import userRoutes from './routes/userRoutes';
 import priceProcess from './priceProcessing';
 import morgan from 'morgan';
 import createHttpError, { isHttpError } from 'http-errors';
+import session from 'express-session';
+import env from './utils/validateEnv';
+import MongoStore from 'connect-mongo';
+import cors from 'cors';
+import { requireAuth } from './middleware/auth';
 
 // Initialize environment variables
-dotenv.config();
+
 
 // Create an Express application
 const app: Application = express();
 app.use(express.json());
+let sessionMiddleware = session({
+  secret: env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 60 * 60 * 1000,
+  },
+  rolling: true,
+  store: MongoStore.create({
+    mongoUrl: env.DB_URL,
+  }),
+});
+
+export function setSessionStore(store: session.Store) {
+  sessionMiddleware = session({
+    secret: 'test-secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 60 * 60 * 1000,
+    },
+    rolling: true,
+    store: store,
+  });
+}
+
+// Use a function to apply session middleware
+export function applySessionMiddleware(app2: express.Application) {
+  app2.use(sessionMiddleware);
+}
+
+// Apply the session middleware
+applySessionMiddleware(app);
+
+
+app.use(session({
+  secret: env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge : 60 * 60 * 1000,
+  },
+  rolling: true,
+  store: MongoStore.create( {
+    mongoUrl: env.DB_URL,
+
+  },
+  ),
+}),
+);
+app.use(cors(
+  {
+    origin: 'http://localhost:3000',
+    credentials: true,
+  },
+));
 app.use(morgan('dev'));
 
 // Load environment variables
-const RapidAPIKey: string | undefined = process.env.RAPIDAPI_KEY;
+const RapidAPIKey: string = env.RAPIDAPI_KEY;
 
-app.use('/api/prices', priceRoutes);
-app.use('/api/login', authRoutes);
-app.use('/api/', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/prices', requireAuth, priceRoutes);
+
+app.use('/api/', requireAuth, userRoutes);
 
 // For unidentified endpoints
 app.use((req, res, next) => {
@@ -40,6 +102,7 @@ app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
     statuscode = error.status;
     errorMessage = error.message;
   }
+  //console.error('Test Error:', error);
   res.status(statuscode).json({ error: errorMessage });
 });
 
