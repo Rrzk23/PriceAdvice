@@ -87,7 +87,7 @@ app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
     statuscode = error.status;
     errorMessage = error.message;
   }
-  //console.error('Test Error:', error);
+  console.error('Test Error:', error);
   res.status(statuscode).json({ error: errorMessage });
 });
 
