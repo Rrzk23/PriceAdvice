@@ -56,7 +56,7 @@ let sessionMiddleware = (0, express_session_1.default)({
         maxAge: 60 * 60 * 1000,
     },
     rolling: true,
-    store: connect_mongo_1.default.create({
+    store: process.env.CI === 'true' ? undefined : connect_mongo_1.default.create({
         mongoUrl: validateEnv_1.default.DB_URL,
     }),
 });
@@ -102,7 +102,7 @@ app.use((error, req, res, next) => {
         statuscode = error.status;
         errorMessage = error.message;
     }
-    //console.error('Test Error:', error);
+    console.error('Test Error:', error);
     res.status(statuscode).json({ error: errorMessage });
 });
 /*app.post('/hi', (req, res) => {

@@ -12,37 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePrice = exports.updatePrice = exports.postPrice = exports.getPrice = exports.getPrices = exports.getFilteredPrices = void 0;
+exports.deletePrice = exports.updatePrice = exports.postPrice = exports.getPrice = exports.getPrices = void 0;
 const priceModel_1 = __importDefault(require("../../models/priceModel"));
-const axios_1 = __importDefault(require("axios"));
-const zod_1 = require("zod");
 const http_errors_1 = __importDefault(require("http-errors"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const asserIsDefined_1 = require("../utils/asserIsDefined");
-// Define a Zod schema for FilterSetting
-const FilterSettingSchema = zod_1.z.object({
-    location: zod_1.z.string(),
-    minPrice: zod_1.z.number(),
-    maxPrice: zod_1.z.number(),
-    propertyType: zod_1.z.string(),
-});
-const getFilteredPrices = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const filters = req.body;
-        FilterSettingSchema.parse(filters); // Valititle filter settings
-        // Replace with the actual API call and logic to use the filters
-        const response = yield axios_1.default.get('https://example.com/api/prices', {
-            params: filters,
-        });
-        //const prices: Price[] = response.data;
-        //PricesArraySchema.parse(prices); // Valititle the response data
-        //res.json(prices);
-    }
-    catch (error) {
-        res.status(500).json({ message: 'Error fetching filtered prices', error });
-    }
-});
-exports.getFilteredPrices = getFilteredPrices;
+/*export const getFilteredPrices = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const filters: FilterSetting = req.body;
+    FilterSettingSchema.parse(filters); // Valititle filter settings
+
+    // Replace with the actual API call and logic to use the filters
+    const response = await axios.get('https://example.com/api/prices', {
+      params: filters,
+    });
+
+    //const prices: Price[] = response.data;
+    //PricesArraySchema.parse(prices); // Valititle the response data
+
+    //res.json(prices);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching filtered prices', error });
+  }
+};*/
 const getPrices = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const authenticatedUserId = req.session.userId;
     try {

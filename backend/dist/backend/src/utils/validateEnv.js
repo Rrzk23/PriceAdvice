@@ -6,7 +6,7 @@ const validateEnv = () => {
     if (process.env.CI === 'true') {
         console.log('Running in CI environment, skipping strict validation');
         return {
-            DB_URL: 'mock_db_url',
+            DB_URL: 'mongodb+srv://mock:QNsZWok9HjBTYdly@cluster0.rxrjtdf.mongodb.net/cool_price_app?retryWrites=true&w=majority&appName=Cluster0',
             PORT: 3000,
             RAPIDAPI_KEY: 'mock_api_key',
             SESSION_SECRET: 'mock_session_secret',
