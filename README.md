@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/38a0a8e3-6916-454c-ae71-3695d5d4a21e)﻿# MREN Fullstack PriceNotes Managing Web Application
+# MREN Fullstack PriceNotes Managing Web Application
 
  ## Technology Stack
 
@@ -58,7 +58,7 @@ Test cases that cover Unit tests and integration tests and have high coverage of
      Adding a Price note and the nav bar showing different list items if Log in: ![Screenshot 2024-09-10 191807](https://github.com/user-attachments/assets/36f09e90-8835-413b-9f97-df7a354b04bd)
  
      Database user password is hashed: ![image](https://github.com/user-attachments/assets/324464f1-6fe7-4330-8c82-d561eb2f82d3)
-     Session is stored at MonogoDB too: ![image](https://github.com/user-attachments/assets/ceefbfd6-f010-41ec-a699-bb7b4fd5791c)
+     Session is stored at MonogoDB too: ![image](https://github.com/user-attachments/assets/38a0a8e3-6916-454c-ae71-3695d5d4a21e)﻿
 
 
 ### License
