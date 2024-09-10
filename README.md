@@ -12,7 +12,7 @@
 
 This web application is based on the study from a video tutorial https://www.youtube.com/watch?v=FcxjCPeicvU made by Code in Flow.
 BUT with multiple my own custom features, routes, testing and refactoring of his code especially in the front end React component.
-Watch the 10 min demo for summary: links to youtube.com.
+Watch the 10 min demo for summary: [links to youtube.com.](https://youtu.be/xd-H0YWDR84)
 
 
 The features section will show you my understanding of the project and knowledge in web application.
